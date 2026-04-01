@@ -6,567 +6,218 @@ layout: default
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zone 4 Ops Hub — The Escape Game</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Zone 4 Ops Scorecard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #080c14;
-    --surface: rgba(255,255,255,0.04);
-    --surface-hover: rgba(255,255,255,0.06);
-    --border: rgba(255,255,255,0.07);
-    --text: #e6edf3;
-    --muted: #7d8590;
-    --green: #3fb950;
-    --green-glow: rgba(63,185,80,0.15);
-    --green-border: rgba(63,185,80,0.3);
-    --yellow: #d29922;
-    --yellow-glow: rgba(210,153,34,0.15);
-    --yellow-border: rgba(210,153,34,0.3);
-    --red: #f85149;
-    --red-glow: rgba(248,81,73,0.15);
-    --red-border: rgba(248,81,73,0.3);
-    --blue: #58a6ff;
-    --blue-glow: rgba(88,166,255,0.15);
-  }
-
-  html { font-size: 14px; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-    position: relative;
-    overflow-x: hidden;
-  }
-
-  /* Grid overlay */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(88,166,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(88,166,255,0.03) 1px, transparent 1px);
-    background-size: 48px 48px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .page { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 24px 64px; }
-
-  /* ── HEADER ── */
-  .site-header {
-    padding: 40px 0 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 32px;
-  }
-  .header-left {}
-  .eyebrow {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 2.5px;
-    color: var(--blue);
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-  h1 {
-    font-size: 42px;
-    font-weight: 800;
-    letter-spacing: -1.5px;
-    line-height: 1;
-    margin-bottom: 10px;
-    background: linear-gradient(135deg, #e6edf3 0%, #8b949e 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .subtitle {
-    font-size: 13px;
-    color: var(--muted);
-    font-weight: 400;
-  }
-  .header-right {
-    text-align: right;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 10px;
-  }
-  .live-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(63,185,80,0.1);
-    border: 1px solid rgba(63,185,80,0.25);
-    border-radius: 20px;
-    padding: 4px 12px;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--green);
-  }
-  .live-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--green);
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.7); }
-  }
-  .date-display {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-  }
-
-  /* ── SUMMARY STRIP ── */
-  .summary-strip {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 36px;
-    flex-wrap: wrap;
-  }
-  .pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 18px;
-    border-radius: 24px;
-    font-size: 13px;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  .pill-icon { font-size: 14px; }
-  .pill-label { font-size: 11px; font-weight: 400; opacity: 0.7; margin-left: 2px; }
-  .pill.green { background: var(--green-glow); border: 1px solid var(--green-border); color: var(--green); }
-  .pill.yellow { background: var(--yellow-glow); border: 1px solid var(--yellow-border); color: var(--yellow); }
-  .pill.red { background: var(--red-glow); border: 1px solid var(--red-border); color: var(--red); }
-  .pill.blue { background: var(--blue-glow); border: 1px solid rgba(88,166,255,0.3); color: var(--blue); }
-
-  /* ── SECTION LABEL ── */
-  .section-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 2px;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: 20px;
-  }
-
-  /* ── STORE GRID ── */
-  .store-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-    gap: 20px;
-  }
-
-  /* ── STORE CARD ── */
-  .store-card {
-    background: var(--surface);
-    border-radius: 16px;
-    padding: 24px;
-    border: 1px solid var(--border);
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 0.5s ease forwards;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.2s;
-  }
-  .store-card:hover { background: var(--surface-hover); }
-  .store-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 16px;
-    pointer-events: none;
-  }
-  .store-card.green { border-color: var(--green-border); box-shadow: 0 0 24px var(--green-glow), inset 0 0 24px rgba(63,185,80,0.03); }
-  .store-card.green::before { background: linear-gradient(135deg, rgba(63,185,80,0.04) 0%, transparent 60%); }
-  .store-card.yellow { border-color: var(--yellow-border); box-shadow: 0 0 24px var(--yellow-glow), inset 0 0 24px rgba(210,153,34,0.03); }
-  .store-card.yellow::before { background: linear-gradient(135deg, rgba(210,153,34,0.04) 0%, transparent 60%); }
-  .store-card.red { border-color: var(--red-border); box-shadow: 0 0 24px var(--red-glow), inset 0 0 24px rgba(248,81,73,0.03); }
-  .store-card.red::before { background: linear-gradient(135deg, rgba(248,81,73,0.04) 0%, transparent 60%); }
-
-  @keyframes fadeUp {
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Card header */
-  .card-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 20px;
-  }
-  .store-badge {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    flex-shrink: 0;
-    letter-spacing: 0.5px;
-  }
-  .store-badge.green { background: rgba(63,185,80,0.15); color: var(--green); border: 1px solid var(--green-border); }
-  .store-badge.yellow { background: rgba(210,153,34,0.15); color: var(--yellow); border: 1px solid var(--yellow-border); }
-  .store-badge.red { background: rgba(248,81,73,0.15); color: var(--red); border: 1px solid var(--red-border); }
-
-  .card-title { flex: 1; }
-  .card-store-name { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
-  .tier-badge {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 2px 8px;
-    border-radius: 6px;
-  }
-  .tier-badge.green { background: rgba(63,185,80,0.12); color: var(--green); }
-  .tier-badge.yellow { background: rgba(210,153,34,0.12); color: var(--yellow); }
-  .tier-badge.red { background: rgba(248,81,73,0.12); color: var(--red); }
-
-  /* Score ring */
-  .score-ring-wrap {
-    position: relative;
-    width: 52px;
-    height: 52px;
-    flex-shrink: 0;
-  }
-  .score-ring-wrap svg { transform: rotate(-90deg); }
-  .score-ring-bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 4; }
-  .score-ring-fill { fill: none; stroke-width: 4; stroke-linecap: round; transition: stroke-dashoffset 1s cubic-bezier(0.4,0,0.2,1); }
-  .score-ring-fill.green { stroke: var(--green); }
-  .score-ring-fill.yellow { stroke: var(--yellow); }
-  .score-ring-fill.red { stroke: var(--red); }
-  .score-ring-text {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  .score-num { font-size: 14px; font-weight: 700; line-height: 1; }
-  .score-denom { font-size: 8px; color: var(--muted); }
-
-  /* Metric rows */
-  .metrics { display: flex; flex-direction: column; gap: 6px; }
-  .metric-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 7px 10px;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.02);
-    border: 1px solid transparent;
-    font-size: 12px;
-  }
-  .metric-row:hover { background: rgba(255,255,255,0.04); }
-  .metric-name { color: var(--muted); font-weight: 400; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .metric-right { display: flex; align-items: center; gap: 8px; }
-  .metric-value { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; color: var(--text); }
-  .pass-icon { font-size: 13px; color: var(--green); font-weight: 700; }
-  .fail-icon { font-size: 13px; color: var(--red); font-weight: 700; }
-
-  /* ── FOOTER ── */
-  .site-footer {
-    margin-top: 48px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 24px;
-    flex-wrap: wrap;
-  }
-  .footer-thresh {
-    font-size: 11px;
-    color: var(--muted);
-    line-height: 1.8;
-    max-width: 700px;
-  }
-  .footer-thresh strong { color: #8b949e; }
-  .footer-brand {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: rgba(125,133,144,0.5);
-    white-space: nowrap;
-    text-align: right;
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 600px) {
-    h1 { font-size: 28px; }
-    .store-grid { grid-template-columns: 1fr; }
-    .site-header { flex-direction: column; gap: 16px; }
-    .header-right { align-items: flex-start; }
-    .summary-strip { gap: 8px; }
-    .pill { font-size: 12px; padding: 8px 14px; }
-  }
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#080c14;color:#e2e8f0;font-family:'Inter',sans-serif;min-height:100vh;padding:24px 16px}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(56,189,248,0.08) 0%,transparent 70%),radial-gradient(ellipse 60% 40% at 80% 80%,rgba(139,92,246,0.06) 0%,transparent 60%);pointer-events:none;z-index:0}
+.wrap{max-width:1400px;margin:0 auto;position:relative;z-index:1}
+header{text-align:center;margin-bottom:28px}
+header h1{font-size:clamp(1.4rem,3vw,2rem);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:linear-gradient(135deg,#38bdf8,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+header .sub{color:#64748b;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;margin-top:6px;font-family:'JetBrains Mono',monospace}
+.strip{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+.chip{padding:6px 16px;border-radius:999px;font-size:0.73rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;border:1px solid}
+.chip.stellar{background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.4);color:#34d399}
+.chip.needs{background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.4);color:#fbbf24}
+.chip.risk{background:rgba(239,68,68,0.12);border-color:rgba(239,68,68,0.4);color:#f87171}
+.chip.tracked{background:rgba(99,102,241,0.12);border-color:rgba(99,102,241,0.4);color:#a5b4fc}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+.card{background:rgba(15,23,42,0.7);border-radius:16px;padding:20px;border:1px solid rgba(255,255,255,0.06);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:box-shadow 0.2s}
+.card:hover{box-shadow:0 0 28px rgba(56,189,248,0.08)}
+.card.tier-stellar{border-color:rgba(16,185,129,0.25)}
+.card.tier-needs{border-color:rgba(245,158,11,0.22)}
+.card.tier-risk{border-color:rgba(239,68,68,0.2)}
+.card-top{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.ring-wrap{flex-shrink:0}
+svg.ring{width:64px;height:64px}
+.ring-bg{fill:none;stroke:rgba(255,255,255,0.06);stroke-width:6}
+.ring-arc{fill:none;stroke-width:6;stroke-linecap:round;transform-origin:50% 50%;transform:rotate(-90deg);transition:stroke-dasharray 1s ease}
+.ring-arc.stellar{stroke:#34d399}
+.ring-arc.needs{stroke:#fbbf24}
+.ring-arc.risk{stroke:#f87171}
+.ring-num{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:1.1rem;fill:#e2e8f0}
+.ring-denom{font-family:'JetBrains Mono',monospace;font-size:0.6rem;fill:#64748b}
+.card-info{flex:1;min-width:0}
+.store-code{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:600;letter-spacing:0.06em;color:#f1f5f9}
+.store-name{font-size:0.78rem;color:#64748b;margin-top:2px}
+.tier-badge{display:inline-block;margin-top:8px;padding:3px 10px;border-radius:999px;font-size:0.68rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase}
+.tier-badge.stellar{background:rgba(16,185,129,0.15);color:#34d399}
+.tier-badge.needs{background:rgba(245,158,11,0.15);color:#fbbf24}
+.tier-badge.risk{background:rgba(239,68,68,0.15);color:#f87171}
+.metrics{display:flex;flex-direction:column;gap:5px}
+.metric{display:flex;align-items:center;gap:8px;font-size:0.72rem;padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.02)}
+.metric .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dot.pass{background:#34d399;box-shadow:0 0 6px rgba(52,211,153,0.5)}
+.dot.fail{background:#f87171;box-shadow:0 0 6px rgba(248,113,113,0.4)}
+.metric .label{color:#94a3b8;flex:1}
+.metric .val{font-family:'JetBrains Mono',monospace;color:#cbd5e1;font-size:0.7rem}
+footer{text-align:center;margin-top:32px;padding:20px;border-top:1px solid rgba(255,255,255,0.05)}
+footer p{font-size:0.68rem;color:#334155;font-family:'JetBrains Mono',monospace;line-height:1.8}
 </style>
 </head>
 <body>
-<div class="page">
-
-  <!-- HEADER -->
-  <header class="site-header">
-    <div class="header-left">
-      <p class="eyebrow">▸ The Escape Game — Zone 4</p>
-      <h1>Ops Hub</h1>
-      <p class="subtitle">Month to Date &nbsp;·&nbsp; Day 26 of March 2026</p>
-    </div>
-    <div class="header-right">
-      <span class="live-badge"><span class="live-dot"></span>Updated Daily</span>
-      <span class="date-display">2026-03-26</span>
-    </div>
-  </header>
-
-  <!-- SUMMARY STRIP -->
-  <div class="summary-strip">
-    <div class="pill green"><span class="pill-icon">✦</span><span>0</span><span class="pill-label">On Track</span></div>
-    <div class="pill yellow"><span class="pill-icon">⚠</span><span>5</span><span class="pill-label">Needs Attention</span></div>
-    <div class="pill red"><span class="pill-icon">✗</span><span>5</span><span class="pill-label">At Risk</span></div>
-    <div class="pill blue"><span class="pill-icon">◎</span><span>10</span><span class="pill-label">Stores Tracked</span></div>
-  </div>
-
-  <!-- SECTION LABEL -->
-  <p class="section-label">// Store Performance · 9 Metrics Each</p>
-
-  <!-- STORE GRID -->
-  <div class="store-grid" id="storeGrid"></div>
-
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="footer-thresh">
-      <strong>Thresholds:</strong> Revenue ≥100% &nbsp;·&nbsp; NPS ≥88% &nbsp;·&nbsp; Replay ≥10% &nbsp;·&nbsp; Rev Quality ≥94% &nbsp;·&nbsp; Rev Qty ≥5% &nbsp;·&nbsp; Labor Hrs actual ≤ forecast &nbsp;·&nbsp; Staff Cost negative (under budget) &nbsp;·&nbsp; Staffing Levels ≥110% &nbsp;·&nbsp; Pipeline no open roles<br>
-      <strong>Tiers:</strong> 7–9 passing = Stellar (On Track) &nbsp;·&nbsp; 4–6 = Needs Attention &nbsp;·&nbsp; 0–3 = At Risk
-    </div>
-    <div class="footer-brand">zone4-ops-hub<br>Generated 2026-03-26</div>
-  </footer>
-
+<div class="wrap">
+<header>
+  <h1>Zone 4 · Ops Scorecard</h1>
+  <div class="sub">Month to Date &nbsp;·&nbsp; Day 1 of April 2026</div>
+</header>
+<div class="strip">
+  <div class="chip stellar">⭐ Stellar: 0</div>
+  <div class="chip needs">⚠ Needs Attention: 3</div>
+  <div class="chip risk">🔴 At Risk: 7</div>
+  <div class="chip tracked">📊 Tracked: 10</div>
 </div>
-
+<div class="grid" id="grid"></div>
+<footer>
+  <p>Thresholds: Revenue ≥100% · NPS MTD ≥88 · Replay ≥10% · Rev Quality ≥94% · Rev Qty ≥5% · Staff Cost under budget · Labor Hrs ≤ forecast · Staff Levels ≥110% · Pipeline fully staffed</p>
+  <p style="margin-top:6px">Stellar = 7–9 passing · Needs Attention = 4–6 · At Risk = 0–3 · Data: March 2026 MTD</p>
+</footer>
+</div>
 <script>
-const STORES = [
-  {
-    abbr: 'CIN', name: 'Cincinnati', score: 4, tier: 'yellow',
-    metrics: [
-      { name: 'Revenue',      value: '92.8%',     pass: false },
-      { name: 'NPS',          value: '83.3%',     pass: false },
-      { name: 'Replay',       value: '6.1%',      pass: false },
-      { name: 'Rev Quality',  value: '100.0%',    pass: true  },
-      { name: 'Rev Qty',      value: '6.3%',      pass: true  },
-      { name: 'Staff Cost',   value: '−$949',     pass: true  },
-      { name: 'Labor Hrs',    value: '2.51/2.87', pass: true  },
-      { name: 'Staff Levels', value: '81.6%',     pass: false },
-      { name: 'Pipeline',     value: 'Open',      pass: false },
-    ]
-  },
-  {
-    abbr: 'RSV', name: 'Roseville', score: 4, tier: 'yellow',
-    metrics: [
-      { name: 'Revenue',      value: '85.3%',     pass: false },
-      { name: 'NPS',          value: '90.9%',     pass: true  },
-      { name: 'Replay',       value: '9.3%',      pass: false },
-      { name: 'Rev Quality',  value: '100.0%',    pass: true  },
-      { name: 'Rev Qty',      value: '4.4%',      pass: false },
-      { name: 'Staff Cost',   value: '+$4,922',   pass: false },
-      { name: 'Labor Hrs',    value: '2.72/2.75', pass: true  },
-      { name: 'Staff Levels', value: '148.5%',    pass: true  },
-      { name: 'Pipeline',     value: 'Open',      pass: false },
-    ]
-  },
-  {
-    abbr: 'SFD', name: 'SF: Downtown', score: 4, tier: 'yellow',
-    metrics: [
-      { name: 'Revenue',      value: '83.7%',     pass: false },
-      { name: 'NPS',          value: '100.0%',    pass: true  },
-      { name: 'Replay',       value: '5.2%',      pass: false },
-      { name: 'Rev Quality',  value: '100.0%',    pass: true  },
-      { name: 'Rev Qty',      value: '4.7%',      pass: false },
-      { name: 'Staff Cost',   value: '+$2,745',   pass: false },
-      { name: 'Labor Hrs',    value: '2.76/3.03', pass: true  },
-      { name: 'Staff Levels', value: '135.7%',    pass: true  },
-      { name: 'Pipeline',     value: 'Open',      pass: false },
-    ]
-  },
-  {
-    abbr: 'SJO', name: 'San Jose', score: 4, tier: 'yellow',
-    metrics: [
-      { name: 'Revenue',      value: '88.3%',     pass: false },
-      { name: 'NPS',          value: '80.0%',     pass: false },
-      { name: 'Replay',       value: '6.3%',      pass: false },
-      { name: 'Rev Quality',  value: '97.5%',     pass: false },
-      { name: 'Rev Qty',      value: '5.0%',      pass: true  },
-      { name: 'Staff Cost',   value: '+$6,751',   pass: false },
-      { name: 'Labor Hrs',    value: '2.30/2.36', pass: true  },
-      { name: 'Staff Levels', value: '116.1%',    pass: true  },
-      { name: 'Pipeline',     value: 'Full',      pass: true  },
-    ]
-  },
-  {
-    abbr: 'SEA', name: 'Seattle: Southcenter', score: 4, tier: 'yellow',
-    metrics: [
-      { name: 'Revenue',      value: '123.9%',    pass: true  },
-      { name: 'NPS',          value: '66.7%',     pass: false },
-      { name: 'Replay',       value: '7.5%',      pass: false },
-      { name: 'Rev Quality',  value: '94.0%',     pass: false },
-      { name: 'Rev Qty',      value: '7.8%',      pass: true  },
-      { name: 'Staff Cost',   value: '−$1,149',   pass: true  },
-      { name: 'Labor Hrs',    value: '2.46/2.51', pass: true  },
-      { name: 'Staff Levels', value: '104.2%',    pass: false },
-      { name: 'Pipeline',     value: 'Open ×2',   pass: false },
-    ]
-  },
-  {
-    abbr: 'COL', name: 'Columbus', score: 2, tier: 'red',
-    metrics: [
-      { name: 'Revenue',      value: '93.5%',     pass: false },
-      { name: 'NPS',          value: '100.0%',    pass: true  },
-      { name: 'Replay',       value: '6.8%',      pass: false },
-      { name: 'Rev Quality',  value: '97.7%',     pass: false },
-      { name: 'Rev Qty',      value: '4.7%',      pass: false },
-      { name: 'Staff Cost',   value: '+$2,827',   pass: false },
-      { name: 'Labor Hrs',    value: '2.60/2.58', pass: false },
-      { name: 'Staff Levels', value: '115.3%',    pass: true  },
-      { name: 'Pipeline',     value: 'Open',      pass: false },
-    ]
-  },
-  {
-    abbr: 'CPK', name: 'Crocker Park', score: 0, tier: 'red',
-    metrics: [
-      { name: 'Revenue',      value: '90.1%',     pass: false },
-      { name: 'NPS',          value: '47.4%',     pass: false },
-      { name: 'Replay',       value: '4.4%',      pass: false },
-      { name: 'Rev Quality',  value: '92.8%',     pass: false },
-      { name: 'Rev Qty',      value: '3.3%',      pass: false },
-      { name: 'Staff Cost',   value: '+$1,210',   pass: false },
-      { name: 'Labor Hrs',    value: '2.61/2.34', pass: false },
-      { name: 'Staff Levels', value: '89.5%',     pass: false },
-      { name: 'Pipeline',     value: 'Open',      pass: false },
-    ]
-  },
-  {
-    abbr: 'MLP', name: 'Milpitas', score: 3, tier: 'red',
-    metrics: [
-      { name: 'Revenue',      value: '88.0%',     pass: false },
-      { name: 'NPS',          value: '62.5%',     pass: false },
-      { name: 'Replay',       value: '10.6%',     pass: true  },
-      { name: 'Rev Quality',  value: '98.0%',     pass: true  },
-      { name: 'Rev Qty',      value: '10.2%',     pass: true  },
-      { name: 'Staff Cost',   value: '+$2,454',   pass: false },
-      { name: 'Labor Hrs',    value: '2.71/2.46', pass: false },
-      { name: 'Staff Levels', value: '102.6%',    pass: false },
-      { name: 'Pipeline',     value: 'Open',      pass: false },
-    ]
-  },
-  {
-    abbr: 'SFW', name: "SF: Fisherman's Wharf", score: 3, tier: 'red',
-    metrics: [
-      { name: 'Revenue',      value: '74.7%',     pass: false },
-      { name: 'NPS',          value: '100.0%',    pass: true  },
-      { name: 'Replay',       value: '8.6%',      pass: false },
-      { name: 'Rev Quality',  value: '98.8%',     pass: true  },
-      { name: 'Rev Qty',      value: '5.1%',      pass: true  },
-      { name: 'Staff Cost',   value: '+$4,873',   pass: false },
-      { name: 'Labor Hrs',    value: '3.05/3.04', pass: false },
-      { name: 'Staff Levels', value: '76.8%',     pass: false },
-      { name: 'Pipeline',     value: 'Open',      pass: false },
-    ]
-  },
-  {
-    abbr: 'SKD', name: 'Seattle: Downtown', score: 3, tier: 'red',
-    metrics: [
-      { name: 'Revenue',      value: '95.0%',     pass: false },
-      { name: 'NPS',          value: '100.0%',    pass: true  },
-      { name: 'Replay',       value: '8.1%',      pass: false },
-      { name: 'Rev Quality',  value: '99.3%',     pass: true  },
-      { name: 'Rev Qty',      value: '7.8%',      pass: true  },
-      { name: 'Staff Cost',   value: '+$491',     pass: false },
-      { name: 'Labor Hrs',    value: '2.67/2.54', pass: false },
-      { name: 'Staff Levels', value: '97.4%',     pass: false },
-      { name: 'Pipeline',     value: 'Open',      pass: false },
-    ]
-  }
+const C=64,R=25,CIRC=2*Math.PI*R;
+const stores=[
+{code:"CIN",name:"Cincinnati",score:3,tier:"risk",metrics:[
+  {label:"Revenue",val:"90.75%",pass:false},
+  {label:"NPS MTD",val:"83",pass:false},
+  {label:"Replay %",val:"6.08%",pass:false},
+  {label:"Rev Quality",val:"99.07%",pass:true},
+  {label:"Rev Qty",val:"3.95%",pass:false},
+  {label:"Staff Cost",val:"Under ✓",pass:true},
+  {label:"Labor Hrs",val:"≤ Fcst ✓",pass:true},
+  {label:"Staff Levels",val:"—",pass:false},
+  {label:"Pipeline",val:"2 open",pass:false}
+]},
+{code:"COL",name:"Columbus",score:4,tier:"needs",metrics:[
+  {label:"Revenue",val:"94.28%",pass:false},
+  {label:"NPS MTD",val:"96",pass:true},
+  {label:"Replay %",val:"7.75%",pass:false},
+  {label:"Rev Quality",val:"98.28%",pass:true},
+  {label:"Rev Qty",val:"5.97%",pass:true},
+  {label:"Staff Cost",val:"Over",pass:false},
+  {label:"Labor Hrs",val:"> Fcst",pass:false},
+  {label:"Staff Levels",val:"≥110% ✓",pass:true},
+  {label:"Pipeline",val:"1 open",pass:false}
+]},
+{code:"CPK",name:"Crocker Park",score:0,tier:"risk",metrics:[
+  {label:"Revenue",val:"89.76%",pass:false},
+  {label:"NPS MTD",val:"50",pass:false},
+  {label:"Replay %",val:"4.66%",pass:false},
+  {label:"Rev Quality",val:"95.28%",pass:false},
+  {label:"Rev Qty",val:"3.46%",pass:false},
+  {label:"Staff Cost",val:"Over",pass:false},
+  {label:"Labor Hrs",val:"> Fcst",pass:false},
+  {label:"Staff Levels",val:"—",pass:false},
+  {label:"Pipeline",val:"Open",pass:false}
+]},
+{code:"MLP",name:"Milpitas",score:1,tier:"risk",metrics:[
+  {label:"Revenue",val:"87.95%",pass:false},
+  {label:"NPS MTD",val:"73",pass:false},
+  {label:"Replay %",val:"9.28%",pass:false},
+  {label:"Rev Quality",val:"98.14%",pass:true},
+  {label:"Rev Qty",val:"2.69%",pass:false},
+  {label:"Staff Cost",val:"Over",pass:false},
+  {label:"Labor Hrs",val:"> Fcst",pass:false},
+  {label:"Staff Levels",val:"—",pass:false},
+  {label:"Pipeline",val:"1 open",pass:false}
+]},
+{code:"RSV",name:"Roseville",score:3,tier:"risk",metrics:[
+  {label:"Revenue",val:"89.56%",pass:false},
+  {label:"NPS MTD",val:"75",pass:false},
+  {label:"Replay %",val:"8.90%",pass:false},
+  {label:"Rev Quality",val:"98.75%",pass:true},
+  {label:"Rev Qty",val:"3.66%",pass:false},
+  {label:"Staff Cost",val:"Over",pass:false},
+  {label:"Labor Hrs",val:"≤ Fcst ✓",pass:true},
+  {label:"Staff Levels",val:"≥110% ✓",pass:true},
+  {label:"Pipeline",val:"1 open",pass:false}
+]},
+{code:"SFD",name:"SF: Downtown",score:5,tier:"needs",metrics:[
+  {label:"Revenue",val:"85.06%",pass:false},
+  {label:"NPS MTD",val:"100",pass:true},
+  {label:"Replay %",val:"4.68%",pass:false},
+  {label:"Rev Quality",val:"100.00%",pass:true},
+  {label:"Rev Qty",val:"6.11%",pass:true},
+  {label:"Staff Cost",val:"Over",pass:false},
+  {label:"Labor Hrs",val:"≤ Fcst ✓",pass:true},
+  {label:"Staff Levels",val:"≥110% ✓",pass:true},
+  {label:"Pipeline",val:"1 open",pass:false}
+]},
+{code:"SFW",name:"SF: Fisherman's Wharf",score:2,tier:"risk",metrics:[
+  {label:"Revenue",val:"77.84%",pass:false},
+  {label:"NPS MTD",val:"60",pass:false},
+  {label:"Replay %",val:"9.28%",pass:false},
+  {label:"Rev Quality",val:"99.16%",pass:true},
+  {label:"Rev Qty",val:"3.59%",pass:false},
+  {label:"Staff Cost",val:"Over",pass:false},
+  {label:"Labor Hrs",val:"≤ Fcst ✓",pass:true},
+  {label:"Staff Levels",val:"—",pass:false},
+  {label:"Pipeline",val:"2 open",pass:false}
+]},
+{code:"SJO",name:"San Jose",score:4,tier:"needs",metrics:[
+  {label:"Revenue",val:"86.65%",pass:false},
+  {label:"NPS MTD",val:"75",pass:false},
+  {label:"Replay %",val:"6.03%",pass:false},
+  {label:"Rev Quality",val:"97.69%",pass:false},
+  {label:"Rev Qty",val:"5.99%",pass:true},
+  {label:"Staff Cost",val:"Over",pass:false},
+  {label:"Labor Hrs",val:"≤ Fcst ✓",pass:true},
+  {label:"Staff Levels",val:"≥110% ✓",pass:true},
+  {label:"Pipeline",val:"Fully staffed",pass:true}
+]},
+{code:"SKD",name:"Seattle: Downtown",score:3,tier:"risk",metrics:[
+  {label:"Revenue",val:"92.91%",pass:false},
+  {label:"NPS MTD",val:"100",pass:true},
+  {label:"Replay %",val:"8.97%",pass:false},
+  {label:"Rev Quality",val:"99.40%",pass:true},
+  {label:"Rev Qty",val:"5.34%",pass:true},
+  {label:"Staff Cost",val:"Over",pass:false},
+  {label:"Labor Hrs",val:"> Fcst",pass:false},
+  {label:"Staff Levels",val:"—",pass:false},
+  {label:"Pipeline",val:"1 open",pass:false}
+]},
+{code:"SEA",name:"Seattle: Southcenter",score:3,tier:"risk",metrics:[
+  {label:"Revenue",val:"118.15%",pass:true},
+  {label:"NPS MTD",val:"62",pass:false},
+  {label:"Replay %",val:"7.05%",pass:false},
+  {label:"Rev Quality",val:"94.91%",pass:false},
+  {label:"Rev Qty",val:"4.90%",pass:false},
+  {label:"Staff Cost",val:"Under ✓",pass:true},
+  {label:"Labor Hrs",val:"≤ Fcst ✓",pass:true},
+  {label:"Staff Levels",val:"—",pass:false},
+  {label:"Pipeline",val:"2 open",pass:false}
+]}
 ];
 
-const CIRC = 2 * Math.PI * 20; // r=20
-
-function buildCard(store, index) {
-  const arc = (store.score / 9) * CIRC;
-  const offset = CIRC - arc;
-  const tierLabel = store.tier === 'green' ? 'Stellar' : store.tier === 'yellow' ? 'Needs Attention' : 'At Risk';
-
-  const metricsHtml = store.metrics.map(m => `
-    <div class="metric-row">
-      <span class="metric-name">${m.name}</span>
-      <div class="metric-right">
-        <span class="metric-value">${m.value}</span>
-        <span class="${m.pass ? 'pass-icon' : 'fail-icon'}">${m.pass ? '✓' : '✗'}</span>
-      </div>
-    </div>
-  `).join('');
-
-  return `
-    <div class="store-card ${store.tier}" style="animation-delay:${index * 0.06}s">
-      <div class="card-header">
-        <div class="store-badge ${store.tier}">${store.abbr}</div>
-        <div class="card-title">
-          <div class="card-store-name">${store.name}</div>
-          <span class="tier-badge ${store.tier}">${tierLabel}</span>
-        </div>
-        <div class="score-ring-wrap">
-          <svg width="52" height="52" viewBox="0 0 52 52">
-            <circle class="score-ring-bg" cx="26" cy="26" r="20"/>
-            <circle class="score-ring-fill ${store.tier}" cx="26" cy="26" r="20"
-              stroke-dasharray="${CIRC}"
-              stroke-dashoffset="${CIRC}"
-              id="ring-${store.abbr}"/>
-          </svg>
-          <div class="score-ring-text">
-            <span class="score-num" style="color:var(--${store.tier})">${store.score}</span>
-            <span class="score-denom">/9</span>
-          </div>
-        </div>
-      </div>
-      <div class="metrics">${metricsHtml}</div>
-    </div>
-  `;
-}
-
-// Render cards
-const grid = document.getElementById('storeGrid');
-grid.innerHTML = STORES.map((s, i) => buildCard(s, i)).join('');
-
-// Animate rings after paint
-requestAnimationFrame(() => {
-  setTimeout(() => {
-    STORES.forEach(store => {
-      const el = document.getElementById('ring-' + store.abbr);
-      if (el) {
-        const arc = (store.score / 9) * CIRC;
-        el.style.strokeDashoffset = String(CIRC - arc);
-      }
-    });
-  }, 300);
+const grid=document.getElementById('grid');
+stores.forEach(s=>{
+  const pct=s.score/9;
+  const dash=pct*CIRC;
+  const card=document.createElement('div');
+  card.className=`card tier-${s.tier}`;
+  card.innerHTML=`
+<div class="card-top">
+  <div class="ring-wrap">
+    <svg class="ring" viewBox="0 0 64 64">
+      <circle class="ring-bg" cx="32" cy="32" r="${R}"/>
+      <circle class="ring-arc ${s.tier}" cx="32" cy="32" r="${R}"
+        stroke-dasharray="${dash.toFixed(2)} ${CIRC.toFixed(2)}"
+        stroke-dashoffset="0"/>
+      <text class="ring-num" x="32" y="33" text-anchor="middle" dominant-baseline="middle">${s.score}</text>
+      <text class="ring-denom" x="32" y="45" text-anchor="middle">/9</text>
+    </svg>
+  </div>
+  <div class="card-info">
+    <div class="store-code">${s.code}</div>
+    <div class="store-name">${s.name}</div>
+    <div class="tier-badge ${s.tier}">${s.tier==='stellar'?'⭐ Stellar':s.tier==='needs'?'⚠ Needs Attention':'🔴 At Risk'}</div>
+  </div>
+</div>
+<div class="metrics">
+${s.metrics.map(m=>`<div class="metric"><span class="dot ${m.pass?'pass':'fail'}"></span><span class="label">${m.label}</span><span class="val">${m.val}</span></div>`).join('')}
+</div>`;
+  grid.appendChild(card);
 });
 </script>
 </body>
