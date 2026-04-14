@@ -1,182 +1,354 @@
 ---
 layout: default
 ---
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Zone 4 Ops Hub</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zone 4 Ops Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#080c14;--card:#0d1420;--border:rgba(255,255,255,0.07);--green:#00e676;--yellow:#ffd740;--red:#ff5252;--blue:#40c4ff;--text:#e8eaf6;--muted:#546e7a;--green-glow:rgba(0,230,118,0.15);--yellow-glow:rgba(255,215,64,0.15);--red-glow:rgba(255,82,82,0.15)}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:40px 40px}
-.header{padding:2.5rem 2rem 1.5rem;text-align:center;position:relative}
-.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-bottom:.5rem}
-.header h1{font-size:2.8rem;font-weight:800;letter-spacing:-.02em;background:linear-gradient(135deg,#40c4ff,#80d8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.subtitle{font-size:.85rem;color:var(--muted);margin-top:.4rem;font-family:'JetBrains Mono',monospace}
-.badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(0,230,118,.1);border:1px solid rgba(0,230,118,.3);color:var(--green);font-size:.65rem;font-family:'JetBrains Mono',monospace;letter-spacing:.1em;padding:.2rem .6rem;border-radius:20px;margin-top:.6rem}
-.pulse{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.5s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.3)}}
-.date-display{position:absolute;top:2.5rem;right:2rem;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);text-align:right}
-.summary{display:flex;justify-content:center;gap:1rem;padding:.5rem 2rem 1.5rem;flex-wrap:wrap}
-.pill{display:flex;align-items:center;gap:.5rem;padding:.4rem 1rem;border-radius:20px;font-size:.8rem;font-weight:600;font-family:'JetBrains Mono',monospace}
-.pill-green{background:rgba(0,230,118,.12);border:1px solid rgba(0,230,118,.3);color:var(--green)}
-.pill-yellow{background:rgba(255,215,64,.12);border:1px solid rgba(255,215,64,.3);color:var(--yellow)}
-.pill-red{background:rgba(255,82,82,.12);border:1px solid rgba(255,82,82,.3);color:var(--red)}
-.pill-blue{background:rgba(64,196,255,.12);border:1px solid rgba(64,196,255,.3);color:var(--blue)}
-.section-label{text-align:center;font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.2em;color:var(--muted);margin-bottom:1.5rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:1.5rem;padding:0 2rem 3rem;max-width:1400px;margin:0 auto}
-.card{background:var(--card);border-radius:12px;padding:1.5rem;position:relative;overflow:hidden;opacity:0;animation:fadeUp .5s forwards}
-@keyframes fadeUp{to{opacity:1;transform:translateY(0)}from{opacity:0;transform:translateY(20px)}}
-.card-green{border:1px solid rgba(0,230,118,.25);box-shadow:0 0 30px var(--green-glow),inset 0 0 30px var(--green-glow)}
-.card-yellow{border:1px solid rgba(255,215,64,.25);box-shadow:0 0 30px var(--yellow-glow),inset 0 0 30px var(--yellow-glow)}
-.card-red{border:1px solid rgba(255,82,82,.25);box-shadow:0 0 30px var(--red-glow),inset 0 0 30px var(--red-glow)}
-.card-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem}
-.store-badge{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.8rem;flex-shrink:0}
-.badge-green{background:rgba(0,230,118,.2);color:var(--green);border:1px solid rgba(0,230,118,.4)}
-.badge-yellow{background:rgba(255,215,64,.2);color:var(--yellow);border:1px solid rgba(255,215,64,.4)}
-.badge-red{background:rgba(255,82,82,.2);color:var(--red);border:1px solid rgba(255,82,82,.4)}
+body{background:#080c14;color:#e2e8f0;font-family:'Inter',sans-serif;min-height:100vh;position:relative;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 49px,rgba(99,102,241,.04) 49px,rgba(99,102,241,.04) 50px),repeating-linear-gradient(90deg,transparent,transparent 49px,rgba(99,102,241,.04) 49px,rgba(99,102,241,.04) 50px);pointer-events:none;z-index:0}
+.container{max-width:1200px;margin:0 auto;padding:2rem 1.5rem;position:relative;z-index:1}
+.header{text-align:center;margin-bottom:2.5rem}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.2em;color:#818cf8;margin-bottom:.5rem;font-weight:500}
+h1{font-size:2.5rem;font-weight:800;background:linear-gradient(135deg,#c7d2fe,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.5rem}
+.subtitle{color:#94a3b8;font-size:.95rem;font-weight:300}
+.badge-row{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:1rem;flex-wrap:wrap}
+.live-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:999px;padding:.25rem .75rem;font-size:.7rem;font-family:'JetBrains Mono',monospace;color:#22c55e;letter-spacing:.05em}
+.pulse{width:6px;height:6px;background:#22c55e;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.date-display{color:#64748b;font-size:.8rem;font-family:'JetBrains Mono',monospace}
+.summary{display:flex;justify-content:center;gap:.75rem;margin-bottom:2rem;flex-wrap:wrap}
+.pill{display:flex;align-items:center;gap:.4rem;padding:.4rem 1rem;border-radius:999px;font-size:.8rem;font-weight:600;backdrop-filter:blur(12px)}
+.pill-green{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);color:#22c55e}
+.pill-yellow{background:rgba(234,179,8,.12);border:1px solid rgba(234,179,8,.3);color:#eab308}
+.pill-red{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#ef4444}
+.pill-blue{background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.3);color:#818cf8}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.15em;color:#475569;margin-bottom:1.5rem;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:1.25rem}
+@media(max-width:500px){.grid{grid-template-columns:1fr}}
+.card{background:rgba(15,23,42,.7);backdrop-filter:blur(16px);border:1px solid rgba(99,102,241,.1);border-radius:16px;padding:1.25rem;position:relative;overflow:hidden;opacity:0;animation:fadeUp .5s ease forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.card::before{content:'';position:absolute;top:-1px;left:-1px;right:-1px;height:3px;border-radius:16px 16px 0 0}
+.card-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
+.store-badge{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;letter-spacing:.05em;color:#fff}
 .store-info{flex:1}
 .store-name{font-weight:700;font-size:1rem}
-.tier-label{font-size:.7rem;font-family:'JetBrains Mono',monospace;margin-top:.15rem}
-.tier-stellar{color:var(--green)}
-.tier-attention{color:var(--yellow)}
-.tier-risk{color:var(--red)}
-.score-ring{float:right;position:relative;width:60px;height:60px}
-.score-ring svg{transform:rotate(-90deg)}
-.ring-bg{fill:none;stroke:rgba(255,255,255,.08);stroke-width:5}
-.ring-fill-green{fill:none;stroke:var(--green);stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset 1s ease}
-.ring-fill-yellow{fill:none;stroke:var(--yellow);stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset 1s ease}
-.ring-fill-red{fill:none;stroke:var(--red);stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset 1s ease}
-.ring-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1rem;text-align:center;line-height:1}
-.ring-sub{font-size:.55rem;font-family:'JetBrains Mono',monospace;color:var(--muted);display:block}
-.metrics{display:flex;flex-direction:column;gap:.4rem}
-.metric{display:flex;align-items:center;justify-content:space-between;padding:.35rem .5rem;border-radius:6px;background:rgba(255,255,255,.03)}
-.metric-name{font-size:.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace}
-.metric-right{display:flex;align-items:center;gap:.5rem}
-.metric-value{font-size:.72rem;font-family:'JetBrains Mono',monospace;color:var(--text)}
-.pass-icon{font-size:.8rem}
-.footer{text-align:center;padding:2rem;font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);border-top:1px solid var(--border)}
-.footer p{margin:.2rem 0}
-@media(max-width:500px){.grid{grid-template-columns:1fr;padding:0 1rem 2rem}.header h1{font-size:1.8rem}.date-display{display:none}}
-</style></head><body>
-<div class="header">
-<div class="date-display">Apr 9, 2026<br>Thu</div>
+.tier-label{font-size:.7rem;font-weight:600;letter-spacing:.05em;font-family:'JetBrains Mono',monospace}
+.ring-container{position:relative;width:52px;height:52px}
+.ring-bg{fill:none;stroke:rgba(99,102,241,.1);stroke-width:4}
+.ring-fg{fill:none;stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset 1s ease}
+.ring-text{fill:#e2e8f0;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;text-anchor:middle;dominant-baseline:central}
+.metrics{display:flex;flex-direction:column;gap:.35rem}
+.metric-row{display:flex;align-items:center;justify-content:space-between;padding:.3rem .5rem;border-radius:6px;font-size:.8rem;background:rgba(15,23,42,.5)}
+.metric-name{color:#94a3b8;font-weight:400}
+.metric-val{display:flex;align-items:center;gap:.4rem;font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:500}
+.icon-pass{color:#22c55e}
+.icon-fail{color:#ef4444}
+footer{text-align:center;margin-top:3rem;padding-top:1.5rem;border-top:1px solid rgba(99,102,241,.08)}
+.thresholds{font-size:.65rem;color:#475569;font-family:'JetBrains Mono',monospace;line-height:1.8;margin-bottom:.5rem}
+.footer-tag{font-size:.6rem;color:#334155;font-family:'JetBrains Mono',monospace}
+</style>
+</head>
+<body>
+<div class="container">
+<header class="header">
 <div class="eyebrow">▸ THE ESCAPE GAME — ZONE 4</div>
 <h1>Ops Hub</h1>
-<div class="subtitle">Month to Date · Day 9 of April 2026</div>
-<div><span class="badge"><span class="pulse"></span>UPDATED DAILY</span></div>
+<div class="subtitle">Month to Date · Day 14 of April 2026</div>
+<div class="badge-row">
+<span class="live-badge"><span class="pulse"></span>UPDATED DAILY</span>
+<span class="date-display">Tue Apr 14, 2026</span>
 </div>
+</header>
 <div class="summary">
-<div class="pill pill-green">● 0 Stellar</div>
-<div class="pill pill-yellow">● 7 Needs Attention</div>
-<div class="pill pill-red">● 3 At Risk</div>
-<div class="pill pill-blue">◈ 10 Stores Tracked</div>
+<span class="pill pill-green">&#9650; On Track 0</span>
+<span class="pill pill-yellow">&#9679; Needs Attention 1</span>
+<span class="pill pill-red">&#9660; At Risk 9</span>
+<span class="pill pill-blue">&#9632; Stores Tracked 10</span>
 </div>
 <div class="section-label">// STORE PERFORMANCE · 9 METRICS EACH</div>
-<div class="grid" id="storeGrid"></div>
-<div class="footer">
-<p>Thresholds: Revenue ≥100% MTD | NPS ≥88% | Replay ≥10% | Rev Quality ≥98% | Rev Qty ≥5% | Labor Hrs ≤ Forecast | Staff Cost &lt; $0 | Staff Levels ≥110% | Pipeline: Fully Staffed</p>
-<p>Tiers: Stellar 7–9 ✓ · Needs Attention 4–6 ✓0�� At Risk 0–3 ✓</p>
-<p>zone4-ops-hub · Generated 2026-04-09</p>
-</div>
-<script>
-const stores=[
-{abbr:"CIN",name:"Cincinnati",score:4,metrics:[
-{name:"Revenue",val:"120.96%",pass:true},{name:"NPS",val:"80%",pass:false},
-{name:"Replay",val:"6.60%",pass:false},{name:"Rev Quality",val:"100%",pass:true},
-{name:"Rev Qty",val:"2.71%",pass:false},{name:"Staff Cost",val:"-$2,898",pass:true},
-{name:"Labor Hrs",val:"On Track",pass:true},{name:"Staff Levels",val:"<110%",pass:false},
-{name:"Pipeline",val:"Open Roles",pass:false}]},
-{abbr:"COL",name:"Columbus",score:4,metrics:[
-{name:"Revenue",val:"131.38%",pass:true},{name:"NPS",val:"75%",pass:false},
-{name:"Replay",val:"5.76%",pass:false},{name:"Rev Quality",val:"92.73%",pass:false},
-{name:"Rev Qty",val:"3.44%",pass:false},{name:"Staff Cost",val:"-$3,195",pass:true},
-{name:"Labor Hrs",val:"On Track",pass:true},{name:"Staff Levels",val:"≥110%",pass:true},
-{name:"Pipeline",val:"Open Roles",pass:false}]},
-{abbr:"CPK",name:"Crocker Park",score:6,metrics:[
-{name:"Revenue",val:"99.81%",pass:false},{name:"NPS",val:"100%",pass:true},
-{name:"Replay",val:"10.44%",pass:true},{name:"Rev Quality",val:"98.18%",pass:true},
-{name:"Rev Qty",val:"7.18%",pass:true},{name:"Staff Cost",val:"-$310",pass:true},
-{name:"Labor Hrs",val:"On Track",pass:true},{name:"Staff Levels",val:"<110%",pass:false},
-{name:"Pipeline",val:"Open Roles",pass:false}]},
-{abbr:"MLP",name:"Milpitas",score:3,metrics:[
-{name:"Revenue",val:"71.73%",pass:false},{name:"NPS",val:"100%",pass:true},
-{name:"Replay",val:"7.10%",pass:false},{name:"Rev Quality",val:"97.80%",pass:false},
-{name:"Rev Qty",val:"10.42%",pass:true},{name:"Staff Cost",val:"+$673",pass:false},
-{name:"Labor Hrs",val:"On Track",pass:true},{name:"Staff Levels",val:"<110%",pass:false},
-{name:"Pipeline",val:"Open Roles",pass:false}]},
-{abbr:"RSV",name:"Roseville",score:4,metrics:[
-{name:"Revenue",val:"101.41%",pass:true},{name:"NPS",val:"50%",pass:false},
-{name:"Replay",val:"8.81%",pass:false},{name:"Rev Quality",val:"94.59%",pass:false},
-{name:"Rev Qty",val:"3.14%",pass:false},{name:"Staff Cost",val:"-$98",pass:true},
-{name:"Labor Hrs",val:"On Track",pass:true},{name:"Staff Levels",val:"≥110%",pass:true},
-{name:"Pipeline",val:"Open Roles",pass:false}]},
-{abbr:"SFD",name:"SF: Downtown",score:5,metrics:[
-{name:"Revenue",val:"75.43%",pass:false},{name:"NPS",val:"100%",pass:true},
-{name:"Replay",val:"3.86%",pass:false},{name:"Rev Quality",val:"100%",pass:true},
-{name:"Rev Qty",val:"6.43%",pass:true},{name:"Staff Cost",val:"+$842",pass:false},
-{name:"Labor Hrs",val:"On Track",pass:true},{name:"Staff Levels",val:"≥110%",pass:true},
-{name:"Pipeline",val:"Open Roles",pass:false}]},
-{abbr:"SFW",name:"SF: Fisherman's Wharf",score:2,metrics:[
-{name:"Revenue",val:"70.75%",pass:false},{name:"NPS",val:"50%",pass:false},
-{name:"Replay",val:"8.64%",pass:false},{name:"Rev Quality",val:"100%",pass:true},
-{name:"Rev Qty",val:"3.73%",pass:false},{name:"Staff Cost",val:"+$573",pass:false},
-{name:"Labor Hrs",val:"On Track",pass:true},{name:"Staff Levels",val:"<110%",pass:false},
-{name:"Pipeline",val:"Open Roles",pass:false}]},
-{abbr:"SJO",name:"San Jose",score:5,metrics:[
-{name:"Revenue",val:"82.21%",pass:false},{name:"NPS",val:"75%",pass:false},
-{name:"Replay",val:"10.83%",pass:true},{name:"Rev Quality",val:"97.59%",pass:false},
-{name:"Rev Qty",val:"5.58%",pass:true},{name:"Staff Cost",val:"+$1,366",pass:false},
-{name:"Labor Hrs",val:"On Track",pass:true},{name:"Staff Levels",val:"≥110%",pass:true},
-{name:"Pipeline",val:"Fully Staffed",pass:true}]},
-{abbr:"SKD",name:"Seattle: Downtown",score:4,metrics:[
-{name:"Revenue",val:"104.49%",pass:true},{name:"NPS",val:"67%",pass:false},
-{name:"Replay",val:"5.01%",pass:false},{name:"Rev Quality",val:"97.22%",pass:false},
-{name:"Rev Qty",val:"4.75%",pass:false},{name:"Staff Cost",val:"-$548",pass:true},
-{name:"Labor Hrs",val:"On Track",pass:true},{name:"Staff Levels",val:"<110%",pass:false},
-{name:"Pipeline",val:"Fully Staffed",pass:true}]},
-{abbr:"SEA",name:"Seattle: Southcenter",score:3,metrics:[
-{name:"Revenue",val:"107.84%",pass:true},{name:"NPS",val:"50%",pass:false},
-{name:"Replay",val:"6.17%",pass:false},{name:"Rev Quality",val:"97.26%",pass:false},
-{name:"Rev Qty",val:"9.01%",pass:true},{name:"Staff Cost",val:"+$508",pass:false},
-{name:"Labor Hrs",val:"On Track",pass:true},{name:"Staff Levels",val:"<110%",pass:false},
-{name:"Pipeline",val:"Open Roles",pass:false}]}
-];
-function getTier(s){return s>=7?'stellar':s>=4?'attention':'risk'}
-function getColor(t){return t==='stellar'?'green':t==='attention'?'yellow':'red'}
-const circ=2*Math.PI*24;
-stores.forEach((st,i)=>{
-const tier=getTier(st.score);
-const col=getColor(tier);
-const arc=circ*(st.score/9);
-const delay=i*0.06;
-const card=document.createElement('div');
-card.className=`card card-${col}`;
-card.style.animationDelay=`${delay}s`;
-const tierLabel=tier==='stellar'?'STELLAR ★':tier==='attention'?'NEEDS ATTENTION ◎':'AT RISK ✕';
-const tierClass=`tier-${tier==='stellar'?'stellar':tier==='attention'?'attention':'risk'}`;
-card.innerHTML=`
+<div class="grid">
+<div class="card" style="animation-delay:0.00s;box-shadow:0 0 30px #ef444418,0 0 60px #ef444408">
+<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#ef4444;border-radius:16px 16px 0 0"></div>
 <div class="card-header">
-<div class="store-badge badge-${col}">${st.abbr}</div>
+<div class="store-badge" style="background:#ef444422;border:1px solid #ef444444">CIN</div>
 <div class="store-info">
-<div class="store-name">${st.name}</div>
-<div class="tier-label ${tierClass}">${tierLabel}</div>
+<div class="store-name">Cincinnati</div>
+<div class="tier-label" style="color:#ef4444">AT RISK</div>
 </div>
-<div class="score-ring">
-<svg width="60" height="60" viewBox="0 0 60 60">
-<circle class="ring-bg" cx="30" cy="30" r="24"/>
-<circle class="ring-fill-${col}" cx="30" cy="30" r="24" stroke-dasharray="${circ}" stroke-dashoffset="${circ-arc}"/>
+<div class="ring-container">
+<svg viewBox="0 0 52 52" width="52" height="52">
+<circle class="ring-bg" cx="26" cy="26" r="20"/>
+<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#ef4444" stroke-dasharray="125.7" stroke-dashoffset="83.8" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:0.30s"/>
+<text class="ring-text" x="26" y="26">3/9</text>
 </svg>
-<div class="ring-text" style="color:var(--${col})">${st.score}<span class="ring-sub">/9</span></div>
 </div>
 </div>
 <div class="metrics">
-${st.metrics.map(m=>`
-<div class="metric">
-<span class="metric-name">${m.name}</span>
-<div class="metric-right">
-<span class="metric-value">${m.val}</span>
-<span class="pass-icon">${m.pass?'✓':'✗'}</span>
+<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">109.2% <span class="icon-pass">✓</span></span></div>
+<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">88% <span class="icon-pass">✓</span></span></div>
+<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">7.2% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">97.4% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">2.8% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$8,733 / $8,292 <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">-5.7% <span class="icon-pass">✓</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+</div></div>
+<div class="card" style="animation-delay:0.08s;box-shadow:0 0 30px #ef444418,0 0 60px #ef444408">
+<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#ef4444;border-radius:16px 16px 0 0"></div>
+<div class="card-header">
+<div class="store-badge" style="background:#ef444422;border:1px solid #ef444444">COL</div>
+<div class="store-info">
+<div class="store-name">Columbus</div>
+<div class="tier-label" style="color:#ef4444">AT RISK</div>
 </div>
-</div>`).join('')}
-</div>`;
-document.getElementById('storeGrid').appendChild(card);
-});
-</script>
-</body></html>
+<div class="ring-container">
+<svg viewBox="0 0 52 52" width="52" height="52">
+<circle class="ring-bg" cx="26" cy="26" r="20"/>
+<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#ef4444" stroke-dasharray="125.7" stroke-dashoffset="97.7" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:0.38s"/>
+<text class="ring-text" x="26" y="26">2/9</text>
+</svg>
+</div>
+</div>
+<div class="metrics">
+<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">115.8% <span class="icon-pass">✓</span></span></div>
+<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">80% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">4.6% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">93.6% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">3.2% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$15,106 / $12,928 <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">-3.6% <span class="icon-pass">✓</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+</div></div>
+<div class="card" style="animation-delay:0.16s;box-shadow:0 0 30px #ef444418,0 0 60px #ef444408">
+<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#ef4444;border-radius:16px 16px 0 0"></div>
+<div class="card-header">
+<div class="store-badge" style="background:#ef444422;border:1px solid #ef444444">CPK</div>
+<div class="store-info">
+<div class="store-name">Crocker Park</div>
+<div class="tier-label" style="color:#ef4444">AT RISK</div>
+</div>
+<div class="ring-container">
+<svg viewBox="0 0 52 52" width="52" height="52">
+<circle class="ring-bg" cx="26" cy="26" r="20"/>
+<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#ef4444" stroke-dasharray="125.7" stroke-dashoffset="111.7" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:0.46s"/>
+<text class="ring-text" x="26" y="26">1/9</text>
+</svg>
+</div>
+</div>
+<div class="metrics">
+<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">97.3% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">73% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">9.2% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">97.9% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">7.4% <span class="icon-pass">✓</span></span></div>
+<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$10,498 / $8,393 <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">+1.0% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+</div></div>
+<div class="card" style="animation-delay:0.24s;box-shadow:0 0 30px #ef444418,0 0 60px #ef444408">
+<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#ef4444;border-radius:16px 16px 0 0"></div>
+<div class="card-header">
+<div class="store-badge" style="background:#ef444422;border:1px solid #ef444444">MLP</div>
+<div class="store-info">
+<div class="store-name">Milpitas</div>
+<div class="tier-label" style="color:#ef4444">AT RISK</div>
+</div>
+<div class="ring-container">
+<svg viewBox="0 0 52 52" width="52" height="52">
+<circle class="ring-bg" cx="26" cy="26" r="20"/>
+<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#ef4444" stroke-dasharray="125.7" stroke-dashoffset="83.8" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:0.54s"/>
+<text class="ring-text" x="26" y="26">3/9</text>
+</svg>
+</div>
+</div>
+<div class="metrics">
+<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">89.5% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">76% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">6.7% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">98.7% <span class="icon-pass">✓</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">8.8% <span class="icon-pass">✓</span></span></div>
+<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$16,075 / $17,725 <span class="icon-pass">✓</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">+0.7% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+</div></div>
+<div class="card" style="animation-delay:0.32s;box-shadow:0 0 30px #ef444418,0 0 60px #ef444408">
+<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#ef4444;border-radius:16px 16px 0 0"></div>
+<div class="card-header">
+<div class="store-badge" style="background:#ef444422;border:1px solid #ef444444">RSV</div>
+<div class="store-info">
+<div class="store-name">Roseville</div>
+<div class="tier-label" style="color:#ef4444">AT RISK</div>
+</div>
+<div class="ring-container">
+<svg viewBox="0 0 52 52" width="52" height="52">
+<circle class="ring-bg" cx="26" cy="26" r="20"/>
+<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#ef4444" stroke-dasharray="125.7" stroke-dashoffset="111.7" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:0.62s"/>
+<text class="ring-text" x="26" y="26">1/9</text>
+</svg>
+</div>
+</div>
+<div class="metrics">
+<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">110.8% <span class="icon-pass">✓</span></span></div>
+<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">73% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">8.2% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">96.1% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">2.5% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$16,512 / $13,614 <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">+0.1% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+</div></div>
+<div class="card" style="animation-delay:0.40s;box-shadow:0 0 30px #eab30818,0 0 60px #eab30808">
+<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#eab308;border-radius:16px 16px 0 0"></div>
+<div class="card-header">
+<div class="store-badge" style="background:#eab30822;border:1px solid #eab30844">SFD</div>
+<div class="store-info">
+<div class="store-name">SF: Downtown</div>
+<div class="tier-label" style="color:#eab308">NEEDS ATTENTION</div>
+</div>
+<div class="ring-container">
+<svg viewBox="0 0 52 52" width="52" height="52">
+<circle class="ring-bg" cx="26" cy="26" r="20"/>
+<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#eab308" stroke-dasharray="125.7" stroke-dashoffset="69.8" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:0.70s"/>
+<text class="ring-text" x="26" y="26">4/9</text>
+</svg>
+</div>
+</div>
+<div class="metrics">
+<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">86.3% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">90% <span class="icon-pass">✓</span></span></div>
+<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">6.7% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">100.0% <span class="icon-pass">✓</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">5.9% <span class="icon-pass">✓</span></span></div>
+<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$11,954 / $11,965 <span class="icon-pass">✓</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">+2.7% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+</div></div>
+<div class="card" style="animation-delay:0.48s;box-shadow:0 0 30px #ef444418,0 0 60px #ef444408">
+<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#ef4444;border-radius:16px 16px 0 0"></div>
+<div class="card-header">
+<div class="store-badge" style="background:#ef444422;border:1px solid #ef444444">SFW</div>
+<div class="store-info">
+<div class="store-name">SF: Fisherman's Wharf</div>
+<div class="tier-label" style="color:#ef4444">AT RISK</div>
+</div>
+<div class="ring-container">
+<svg viewBox="0 0 52 52" width="52" height="52">
+<circle class="ring-bg" cx="26" cy="26" r="20"/>
+<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#ef4444" stroke-dasharray="125.7" stroke-dashoffset="97.7" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:0.78s"/>
+<text class="ring-text" x="26" y="26">2/9</text>
+</svg>
+</div>
+</div>
+<div class="metrics">
+<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">85.0% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">86% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">8.7% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">100.0% <span class="icon-pass">✓</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">4.4% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$13,457 / $13,746 <span class="icon-pass">✓</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">+0.6% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+</div></div>
+<div class="card" style="animation-delay:0.56s;box-shadow:0 0 30px #ef444418,0 0 60px #ef444408">
+<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#ef4444;border-radius:16px 16px 0 0"></div>
+<div class="card-header">
+<div class="store-badge" style="background:#ef444422;border:1px solid #ef444444">SJO</div>
+<div class="store-info">
+<div class="store-name">San Jose</div>
+<div class="tier-label" style="color:#ef4444">AT RISK</div>
+</div>
+<div class="ring-container">
+<svg viewBox="0 0 52 52" width="52" height="52">
+<circle class="ring-bg" cx="26" cy="26" r="20"/>
+<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#ef4444" stroke-dasharray="125.7" stroke-dashoffset="111.7" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:0.86s"/>
+<text class="ring-text" x="26" y="26">1/9</text>
+</svg>
+</div>
+</div>
+<div class="metrics">
+<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">92.0% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">61% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">7.2% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">96.5% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">5.3% <span class="icon-pass">✓</span></span></div>
+<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$22,099 / $19,436 <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">+4.1% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+</div></div>
+<div class="card" style="animation-delay:0.64s;box-shadow:0 0 30px #ef444418,0 0 60px #ef444408">
+<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#ef4444;border-radius:16px 16px 0 0"></div>
+<div class="card-header">
+<div class="store-badge" style="background:#ef444422;border:1px solid #ef444444">SKD</div>
+<div class="store-info">
+<div class="store-name">Seattle: Downtown</div>
+<div class="tier-label" style="color:#ef4444">AT RISK</div>
+</div>
+<div class="ring-container">
+<svg viewBox="0 0 52 52" width="52" height="52">
+<circle class="ring-bg" cx="26" cy="26" r="20"/>
+<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#ef4444" stroke-dasharray="125.7" stroke-dashoffset="125.7" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:0.94s"/>
+<text class="ring-text" x="26" y="26">0/9</text>
+</svg>
+</div>
+</div>
+<div class="metrics">
+<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">96.7% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">84% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">5.7% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">98.0% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">4.0% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$16,012 / $9,425 <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">+3.9% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+</div></div>
+<div class="card" style="animation-delay:0.72s;box-shadow:0 0 30px #ef444418,0 0 60px #ef444408">
+<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#ef4444;border-radius:16px 16px 0 0"></div>
+<div class="card-header">
+<div class="store-badge" style="background:#ef444422;border:1px solid #ef444444">SEA</div>
+<div class="store-info">
+<div class="store-name">Seattle: Southcenter</div>
+<div class="tier-label" style="color:#ef4444">AT RISK</div>
+</div>
+<div class="ring-container">
+<svg viewBox="0 0 52 52" width="52" height="52">
+<circle class="ring-bg" cx="26" cy="26" r="20"/>
+<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#ef4444" stroke-dasharray="125.7" stroke-dashoffset="97.7" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:1.02s"/>
+<text class="ring-text" x="26" y="26">2/9</text>
+</svg>
+</div>
+</div>
+<div class="metrics">
+<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">111.7% <span class="icon-pass">✓</span></span></div>
+<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">74% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">6.5% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">96.8% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">8.4% <span class="icon-pass">✓</span></span></div>
+<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$17,103 / $13,707 <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">+2.6% <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
+</div></div>
+</div>
+<footer>
+<div class="thresholds">Rev ≥100% · NPS ≥88% · Replay ≥10% · Rev Quality ≥98% · Rev Qty ≥5% · Labor ≤ Forecast · Staff Cost &lt; Budget · Staff Levels ≥110% · Pipeline: Fully Staffed</div>
+<div class="footer-tag">zone4-ops-hub · Generated 2026-04-14</div>
+</footer>
+</div>
+<style>@keyframes ringDraw{from{stroke-dashoffset:125.7}to{}}</style>
+</body>
+</html>
