@@ -1,354 +1,74 @@
 ---
 layout: default
 ---
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Zone 4 Ops Hub</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Zone 4 Ops Hub | The Escape Game</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#080c14;color:#e2e8f0;font-family:'Inter',sans-serif;min-height:100vh;position:relative;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 49px,rgba(99,102,241,.04) 49px,rgba(99,102,241,.04) 50px),repeating-linear-gradient(90deg,transparent,transparent 49px,rgba(99,102,241,.04) 49px,rgba(99,102,241,.04) 50px);pointer-events:none;z-index:0}
-.container{max-width:1200px;margin:0 auto;padding:2rem 1.5rem;position:relative;z-index:1}
-.header{text-align:center;margin-bottom:2.5rem}
-.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.2em;color:#818cf8;margin-bottom:.5rem;font-weight:500}
-h1{font-size:2.5rem;font-weight:800;background:linear-gradient(135deg,#c7d2fe,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.5rem}
-.subtitle{color:#94a3b8;font-size:.95rem;font-weight:300}
-.badge-row{display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:1rem;flex-wrap:wrap}
-.live-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:999px;padding:.25rem .75rem;font-size:.7rem;font-family:'JetBrains Mono',monospace;color:#22c55e;letter-spacing:.05em}
-.pulse{width:6px;height:6px;background:#22c55e;border-radius:50%;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.date-display{color:#64748b;font-size:.8rem;font-family:'JetBrains Mono',monospace}
-.summary{display:flex;justify-content:center;gap:.75rem;margin-bottom:2rem;flex-wrap:wrap}
-.pill{display:flex;align-items:center;gap:.4rem;padding:.4rem 1rem;border-radius:999px;font-size:.8rem;font-weight:600;backdrop-filter:blur(12px)}
-.pill-green{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);color:#22c55e}
-.pill-yellow{background:rgba(234,179,8,.12);border:1px solid rgba(234,179,8,.3);color:#eab308}
-.pill-red{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#ef4444}
-.pill-blue{background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.3);color:#818cf8}
-.section-label{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.15em;color:#475569;margin-bottom:1.5rem;text-align:center}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:1.25rem}
-@media(max-width:500px){.grid{grid-template-columns:1fr}}
-.card{background:rgba(15,23,42,.7);backdrop-filter:blur(16px);border:1px solid rgba(99,102,241,.1);border-radius:16px;padding:1.25rem;position:relative;overflow:hidden;opacity:0;animation:fadeUp .5s ease forwards}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.card::before{content:'';position:absolute;top:-1px;left:-1px;right:-1px;height:3px;border-radius:16px 16px 0 0}
-.card-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem}
-.store-badge{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;letter-spacing:.05em;color:#fff}
-.store-info{flex:1}
-.store-name{font-weight:700;font-size:1rem}
-.tier-label{font-size:.7rem;font-weight:600;letter-spacing:.05em;font-family:'JetBrains Mono',monospace}
-.ring-container{position:relative;width:52px;height:52px}
-.ring-bg{fill:none;stroke:rgba(99,102,241,.1);stroke-width:4}
-.ring-fg{fill:none;stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset 1s ease}
-.ring-text{fill:#e2e8f0;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;text-anchor:middle;dominant-baseline:central}
-.metrics{display:flex;flex-direction:column;gap:.35rem}
-.metric-row{display:flex;align-items:center;justify-content:space-between;padding:.3rem .5rem;border-radius:6px;font-size:.8rem;background:rgba(15,23,42,.5)}
-.metric-name{color:#94a3b8;font-weight:400}
-.metric-val{display:flex;align-items:center;gap:.4rem;font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:500}
-.icon-pass{color:#22c55e}
-.icon-fail{color:#ef4444}
-footer{text-align:center;margin-top:3rem;padding-top:1.5rem;border-top:1px solid rgba(99,102,241,.08)}
-.thresholds{font-size:.65rem;color:#475569;font-family:'JetBrains Mono',monospace;line-height:1.8;margin-bottom:.5rem}
-.footer-tag{font-size:.6rem;color:#334155;font-family:'JetBrains Mono',monospace}
-</style>
-</head>
-<body>
-<div class="container">
-<header class="header">
-<div class="eyebrow">▸ THE ESCAPE GAME — ZONE 4</div>
-<h1>Ops Hub</h1>
-<div class="subtitle">Month to Date · Day 14 of April 2026</div>
-<div class="badge-row">
-<span class="live-badge"><span class="pulse"></span>UPDATED DAILY</span>
-<span class="date-display">Tue Apr 14, 2026</span>
-</div>
-</header>
-<div class="summary">
-<span class="pill pill-green">&#9650; On Track 0</span>
-<span class="pill pill-yellow">&#9679; Needs Attention 1</span>
-<span class="pill pill-red">&#9660; At Risk 9</span>
-<span class="pill pill-blue">&#9632; Stores Tracked 10</span>
-</div>
+body{font-family:'Inter',sans-serif;background:#080c14;color:#e2e8f0;min-height:100vh;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:40px 40px}
+.wrap{max-width:1400px;margin:0 auto;padding:40px 24px}
+.header{position:relative;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:32px}
+.date-pill{position:absolute;top:0;right:0;padding:8px 16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:100px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#94a3b8}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:#60a5fa;letter-spacing:.2em;margin-bottom:12px;text-transform:uppercase}
+h1{font-size:56px;font-weight:800;letter-spacing:-.03em;background:linear-gradient(135deg,#fff 0%,#60a5fa 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+.subtitle{color:#94a3b8;font-size:16px;font-weight:400;margin-bottom:16px}
+.live-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);border-radius:100px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#34d399;font-weight:500}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#34d399;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(52,211,153,.5)}50%{opacity:.6;box-shadow:0 0 0 6px rgba(52,211,153,0)}}
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:32px}
+.pill{padding:16px 20px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(10px);position:relative;overflow:hidden}
+.pill-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:.15em;margin-bottom:8px}
+.pill-val{font-size:32px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.pill.green .pill-val{color:#34d399}.pill.green{border-color:rgba(52,211,153,.2)}
+.pill.yellow .pill-val{color:#fbbf24}.pill.yellow{border-color:rgba(251,191,36,.2)}
+.pill.red .pill-val{color:#f87171}.pill.red{border-color:rgba(248,113,113,.2)}
+.pill.blue .pill-val{color:#60a5fa}.pill.blue{border-color:rgba(96,165,250,.2)}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:#64748b;letter-spacing:.2em;text-transform:uppercase;margin:24px 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:16px}
+.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px;backdrop-filter:blur(10px);position:relative;opacity:0;animation:fadeUp .6s forwards}
+.card.stellar{box-shadow:0 0 32px rgba(52,211,153,.08);border-color:rgba(52,211,153,.15)}
+.card.attention{box-shadow:0 0 32px rgba(251,191,36,.08);border-color:rgba(251,191,36,.15)}
+.card.risk{box-shadow:0 0 32px rgba(248,113,113,.08);border-color:rgba(248,113,113,.15)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.card-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.06)}
+.badge{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:13px;flex-shrink:0}
+.card-title{flex:1;min-width:0}
+.s-name{font-size:17px;font-weight:600;color:#f1f5f9;margin-bottom:2px}
+.s-tier{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;font-weight:500}
+.ring{flex-shrink:0}
+.rows{display:flex;flex-direction:column;gap:6px}
+.row{display:flex;align-items:center;padding:8px 10px;background:rgba(255,255,255,.02);border-radius:8px;gap:12px;font-size:13px}
+.m-name{flex:1;color:#94a3b8;font-weight:500}
+.m-val{font-family:'JetBrains Mono',monospace;color:#e2e8f0;font-size:12px;font-weight:500}
+.m-icon{width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0}
+.m-icon.pass{background:rgba(52,211,153,.15);color:#34d399}
+.m-icon.fail{background:rgba(248,113,113,.15);color:#f87171}
+footer{margin-top:48px;padding-top:24px;border-top:1px solid rgba(255,255,255,.08);font-family:'JetBrains Mono',monospace;font-size:11px;color:#64748b;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.thresholds{max-width:800px;line-height:1.8}
+.thresholds strong{color:#94a3b8}
+@media(max-width:640px){h1{font-size:36px}.summary{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.date-pill{position:static;display:inline-block;margin-top:16px}}
+</style></head><body><div class="wrap">
+<div class="header"><div class="date-pill">2026-04-16</div><div class="eyebrow">▸ THE ESCAPE GAME — ZONE 4</div><h1>Ops Hub</h1><div class="subtitle">Month to Date · Day 16 of April 2026</div><div class="live-badge"><span class="live-dot"></span>UPDATED DAILY</div></div>
+<div class="summary"><div class="pill green"><div class="pill-label">On Track</div><div class="pill-val">0</div></div><div class="pill yellow"><div class="pill-label">Needs Attention</div><div class="pill-val">0</div></div><div class="pill red"><div class="pill-label">At Risk</div><div class="pill-val">10</div></div><div class="pill blue"><div class="pill-label">Stores Tracked</div><div class="pill-val">10</div></div></div>
 <div class="section-label">// STORE PERFORMANCE · 9 METRICS EACH</div>
-<div class="grid">
-<div class="card" style="animation-delay:0.00s;box-shadow:0 0 30px #ef444418,0 0 60px #ef444408">
-<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#ef4444;border-radius:16px 16px 0 0"></div>
-<div class="card-header">
-<div class="store-badge" style="background:#ef444422;border:1px solid #ef444444">CIN</div>
-<div class="store-info">
-<div class="store-name">Cincinnati</div>
-<div class="tier-label" style="color:#ef4444">AT RISK</div>
-</div>
-<div class="ring-container">
-<svg viewBox="0 0 52 52" width="52" height="52">
-<circle class="ring-bg" cx="26" cy="26" r="20"/>
-<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#ef4444" stroke-dasharray="125.7" stroke-dashoffset="83.8" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:0.30s"/>
-<text class="ring-text" x="26" y="26">3/9</text>
-</svg>
-</div>
-</div>
-<div class="metrics">
-<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">109.2% <span class="icon-pass">✓</span></span></div>
-<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">88% <span class="icon-pass">✓</span></span></div>
-<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">7.2% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">97.4% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">2.8% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$8,733 / $8,292 <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">-5.7% <span class="icon-pass">✓</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-</div></div>
-<div class="card" style="animation-delay:0.08s;box-shadow:0 0 30px #ef444418,0 0 60px #ef444408">
-<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#ef4444;border-radius:16px 16px 0 0"></div>
-<div class="card-header">
-<div class="store-badge" style="background:#ef444422;border:1px solid #ef444444">COL</div>
-<div class="store-info">
-<div class="store-name">Columbus</div>
-<div class="tier-label" style="color:#ef4444">AT RISK</div>
-</div>
-<div class="ring-container">
-<svg viewBox="0 0 52 52" width="52" height="52">
-<circle class="ring-bg" cx="26" cy="26" r="20"/>
-<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#ef4444" stroke-dasharray="125.7" stroke-dashoffset="97.7" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:0.38s"/>
-<text class="ring-text" x="26" y="26">2/9</text>
-</svg>
-</div>
-</div>
-<div class="metrics">
-<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">115.8% <span class="icon-pass">✓</span></span></div>
-<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">80% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">4.6% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">93.6% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">3.2% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$15,106 / $12,928 <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">-3.6% <span class="icon-pass">✓</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-</div></div>
-<div class="card" style="animation-delay:0.16s;box-shadow:0 0 30px #ef444418,0 0 60px #ef444408">
-<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#ef4444;border-radius:16px 16px 0 0"></div>
-<div class="card-header">
-<div class="store-badge" style="background:#ef444422;border:1px solid #ef444444">CPK</div>
-<div class="store-info">
-<div class="store-name">Crocker Park</div>
-<div class="tier-label" style="color:#ef4444">AT RISK</div>
-</div>
-<div class="ring-container">
-<svg viewBox="0 0 52 52" width="52" height="52">
-<circle class="ring-bg" cx="26" cy="26" r="20"/>
-<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#ef4444" stroke-dasharray="125.7" stroke-dashoffset="111.7" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:0.46s"/>
-<text class="ring-text" x="26" y="26">1/9</text>
-</svg>
-</div>
-</div>
-<div class="metrics">
-<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">97.3% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">73% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">9.2% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">97.9% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">7.4% <span class="icon-pass">✓</span></span></div>
-<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$10,498 / $8,393 <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">+1.0% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-</div></div>
-<div class="card" style="animation-delay:0.24s;box-shadow:0 0 30px #ef444418,0 0 60px #ef444408">
-<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#ef4444;border-radius:16px 16px 0 0"></div>
-<div class="card-header">
-<div class="store-badge" style="background:#ef444422;border:1px solid #ef444444">MLP</div>
-<div class="store-info">
-<div class="store-name">Milpitas</div>
-<div class="tier-label" style="color:#ef4444">AT RISK</div>
-</div>
-<div class="ring-container">
-<svg viewBox="0 0 52 52" width="52" height="52">
-<circle class="ring-bg" cx="26" cy="26" r="20"/>
-<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#ef4444" stroke-dasharray="125.7" stroke-dashoffset="83.8" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:0.54s"/>
-<text class="ring-text" x="26" y="26">3/9</text>
-</svg>
-</div>
-</div>
-<div class="metrics">
-<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">89.5% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">76% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">6.7% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">98.7% <span class="icon-pass">✓</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">8.8% <span class="icon-pass">✓</span></span></div>
-<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$16,075 / $17,725 <span class="icon-pass">✓</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">+0.7% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-</div></div>
-<div class="card" style="animation-delay:0.32s;box-shadow:0 0 30px #ef444418,0 0 60px #ef444408">
-<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#ef4444;border-radius:16px 16px 0 0"></div>
-<div class="card-header">
-<div class="store-badge" style="background:#ef444422;border:1px solid #ef444444">RSV</div>
-<div class="store-info">
-<div class="store-name">Roseville</div>
-<div class="tier-label" style="color:#ef4444">AT RISK</div>
-</div>
-<div class="ring-container">
-<svg viewBox="0 0 52 52" width="52" height="52">
-<circle class="ring-bg" cx="26" cy="26" r="20"/>
-<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#ef4444" stroke-dasharray="125.7" stroke-dashoffset="111.7" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:0.62s"/>
-<text class="ring-text" x="26" y="26">1/9</text>
-</svg>
-</div>
-</div>
-<div class="metrics">
-<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">110.8% <span class="icon-pass">✓</span></span></div>
-<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">73% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">8.2% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">96.1% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">2.5% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$16,512 / $13,614 <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">+0.1% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-</div></div>
-<div class="card" style="animation-delay:0.40s;box-shadow:0 0 30px #eab30818,0 0 60px #eab30808">
-<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#eab308;border-radius:16px 16px 0 0"></div>
-<div class="card-header">
-<div class="store-badge" style="background:#eab30822;border:1px solid #eab30844">SFD</div>
-<div class="store-info">
-<div class="store-name">SF: Downtown</div>
-<div class="tier-label" style="color:#eab308">NEEDS ATTENTION</div>
-</div>
-<div class="ring-container">
-<svg viewBox="0 0 52 52" width="52" height="52">
-<circle class="ring-bg" cx="26" cy="26" r="20"/>
-<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#eab308" stroke-dasharray="125.7" stroke-dashoffset="69.8" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:0.70s"/>
-<text class="ring-text" x="26" y="26">4/9</text>
-</svg>
-</div>
-</div>
-<div class="metrics">
-<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">86.3% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">90% <span class="icon-pass">✓</span></span></div>
-<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">6.7% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">100.0% <span class="icon-pass">✓</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">5.9% <span class="icon-pass">✓</span></span></div>
-<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$11,954 / $11,965 <span class="icon-pass">✓</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">+2.7% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-</div></div>
-<div class="card" style="animation-delay:0.48s;box-shadow:0 0 30px #ef444418,0 0 60px #ef444408">
-<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#ef4444;border-radius:16px 16px 0 0"></div>
-<div class="card-header">
-<div class="store-badge" style="background:#ef444422;border:1px solid #ef444444">SFW</div>
-<div class="store-info">
-<div class="store-name">SF: Fisherman's Wharf</div>
-<div class="tier-label" style="color:#ef4444">AT RISK</div>
-</div>
-<div class="ring-container">
-<svg viewBox="0 0 52 52" width="52" height="52">
-<circle class="ring-bg" cx="26" cy="26" r="20"/>
-<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#ef4444" stroke-dasharray="125.7" stroke-dashoffset="97.7" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:0.78s"/>
-<text class="ring-text" x="26" y="26">2/9</text>
-</svg>
-</div>
-</div>
-<div class="metrics">
-<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">85.0% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">86% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">8.7% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">100.0% <span class="icon-pass">✓</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">4.4% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$13,457 / $13,746 <span class="icon-pass">✓</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">+0.6% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-</div></div>
-<div class="card" style="animation-delay:0.56s;box-shadow:0 0 30px #ef444418,0 0 60px #ef444408">
-<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#ef4444;border-radius:16px 16px 0 0"></div>
-<div class="card-header">
-<div class="store-badge" style="background:#ef444422;border:1px solid #ef444444">SJO</div>
-<div class="store-info">
-<div class="store-name">San Jose</div>
-<div class="tier-label" style="color:#ef4444">AT RISK</div>
-</div>
-<div class="ring-container">
-<svg viewBox="0 0 52 52" width="52" height="52">
-<circle class="ring-bg" cx="26" cy="26" r="20"/>
-<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#ef4444" stroke-dasharray="125.7" stroke-dashoffset="111.7" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:0.86s"/>
-<text class="ring-text" x="26" y="26">1/9</text>
-</svg>
-</div>
-</div>
-<div class="metrics">
-<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">92.0% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">61% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">7.2% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">96.5% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">5.3% <span class="icon-pass">✓</span></span></div>
-<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$22,099 / $19,436 <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">+4.1% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-</div></div>
-<div class="card" style="animation-delay:0.64s;box-shadow:0 0 30px #ef444418,0 0 60px #ef444408">
-<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#ef4444;border-radius:16px 16px 0 0"></div>
-<div class="card-header">
-<div class="store-badge" style="background:#ef444422;border:1px solid #ef444444">SKD</div>
-<div class="store-info">
-<div class="store-name">Seattle: Downtown</div>
-<div class="tier-label" style="color:#ef4444">AT RISK</div>
-</div>
-<div class="ring-container">
-<svg viewBox="0 0 52 52" width="52" height="52">
-<circle class="ring-bg" cx="26" cy="26" r="20"/>
-<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#ef4444" stroke-dasharray="125.7" stroke-dashoffset="125.7" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:0.94s"/>
-<text class="ring-text" x="26" y="26">0/9</text>
-</svg>
-</div>
-</div>
-<div class="metrics">
-<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">96.7% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">84% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">5.7% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">98.0% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">4.0% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$16,012 / $9,425 <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">+3.9% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-</div></div>
-<div class="card" style="animation-delay:0.72s;box-shadow:0 0 30px #ef444418,0 0 60px #ef444408">
-<div style="position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:#ef4444;border-radius:16px 16px 0 0"></div>
-<div class="card-header">
-<div class="store-badge" style="background:#ef444422;border:1px solid #ef444444">SEA</div>
-<div class="store-info">
-<div class="store-name">Seattle: Southcenter</div>
-<div class="tier-label" style="color:#ef4444">AT RISK</div>
-</div>
-<div class="ring-container">
-<svg viewBox="0 0 52 52" width="52" height="52">
-<circle class="ring-bg" cx="26" cy="26" r="20"/>
-<circle class="ring-fg" cx="26" cy="26" r="20" stroke="#ef4444" stroke-dasharray="125.7" stroke-dashoffset="97.7" transform="rotate(-90 26 26)" style="animation:ringDraw 1.2s ease forwards;animation-delay:1.02s"/>
-<text class="ring-text" x="26" y="26">2/9</text>
-</svg>
-</div>
-</div>
-<div class="metrics">
-<div class="metric-row"><span class="metric-name">Revenue</span><span class="metric-val">111.7% <span class="icon-pass">✓</span></span></div>
-<div class="metric-row"><span class="metric-name">NPS</span><span class="metric-val">74% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Replay</span><span class="metric-val">6.5% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Quality</span><span class="metric-val">96.8% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Rev Qty</span><span class="metric-val">8.4% <span class="icon-pass">✓</span></span></div>
-<div class="metric-row"><span class="metric-name">Labor Hrs</span><span class="metric-val">$17,103 / $13,707 <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Cost</span><span class="metric-val">+2.6% <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Staff Levels</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-<div class="metric-row"><span class="metric-name">Pipeline</span><span class="metric-val">N/A <span class="icon-fail">✗</span></span></div>
-</div></div>
-</div>
-<footer>
-<div class="thresholds">Rev ≥100% · NPS ≥88% · Replay ≥10% · Rev Quality ≥98% · Rev Qty ≥5% · Labor ≤ Forecast · Staff Cost &lt; Budget · Staff Levels ≥110% · Pipeline: Fully Staffed</div>
-<div class="footer-tag">zone4-ops-hub · Generated 2026-04-14</div>
-</footer>
-</div>
-<style>@keyframes ringDraw{from{stroke-dashoffset:125.7}to{}}</style>
-</body>
-</html>
+<div class="grid"><div class="card risk" style="animation-delay:0.0s">
+<div class="card-head"><span class="badge" style="background:#f87171;color:#080c14">CIN</span><div class="card-title"><div class="s-name">Cincinnati</div><div class="s-tier" style="color:#f87171">AT RISK</div></div><svg class="ring" width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="36" stroke="#1a2332" stroke-width="6" fill="none"/><circle cx="42" cy="42" r="36" stroke="#f87171" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="75.4 226.2" transform="rotate(-90 42 42)"/><text x="42" y="46" text-anchor="middle" font-family="JetBrains Mono" font-weight="500" font-size="20" fill="#e2e8f0">3</text><text x="42" y="58" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">/9</text></svg></div>
+<div class="rows"><div class="row"><span class="m-name">Revenue %</span><span class="m-val">104.58%</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">NPS MTD</span><span class="m-val">86%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Replay %</span><span class="m-val">7.15%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Rev Quality</span><span class="m-val">97.56%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Rev Quantity</span><span class="m-val">2.86%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Labor Hrs</span><span class="m-val">Under</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">Staff Cost $</span><span class="m-val">-$2,117</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">Staff Levels</span><span class="m-val">85%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Pipeline</span><span class="m-val">1 open</span><span class="m-icon fail">✗</span></div></div></div><div class="card risk" style="animation-delay:0.04s">
+<div class="card-head"><span class="badge" style="background:#f87171;color:#080c14">COL</span><div class="card-title"><div class="s-name">Columbus</div><div class="s-tier" style="color:#f87171">AT RISK</div></div><svg class="ring" width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="36" stroke="#1a2332" stroke-width="6" fill="none"/><circle cx="42" cy="42" r="36" stroke="#f87171" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="75.4 226.2" transform="rotate(-90 42 42)"/><text x="42" y="46" text-anchor="middle" font-family="JetBrains Mono" font-weight="500" font-size="20" fill="#e2e8f0">3</text><text x="42" y="58" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">/9</text></svg></div>
+<div class="rows"><div class="row"><span class="m-name">Revenue %</span><span class="m-val">112.58%</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">NPS MTD</span><span class="m-val">62%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Replay %</span><span class="m-val">4.70%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Rev Quality</span><span class="m-val">93.98%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Rev Quantity</span><span class="m-val">3.34%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Labor Hrs</span><span class="m-val">Under</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">Staff Cost $</span><span class="m-val">-$2,135</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">Staff Levels</span><span class="m-val">90%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Pipeline</span><span class="m-val">1 open</span><span class="m-icon fail">✗</span></div></div></div><div class="card risk" style="animation-delay:0.08s">
+<div class="card-head"><span class="badge" style="background:#f87171;color:#080c14">CPK</span><div class="card-title"><div class="s-name">Crocker Park</div><div class="s-tier" style="color:#f87171">AT RISK</div></div><svg class="ring" width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="36" stroke="#1a2332" stroke-width="6" fill="none"/><circle cx="42" cy="42" r="36" stroke="#f87171" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="50.3 226.2" transform="rotate(-90 42 42)"/><text x="42" y="46" text-anchor="middle" font-family="JetBrains Mono" font-weight="500" font-size="20" fill="#e2e8f0">2</text><text x="42" y="58" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">/9</text></svg></div>
+<div class="rows"><div class="row"><span class="m-name">Revenue %</span><span class="m-val">96.17%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">NPS MTD</span><span class="m-val">82%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Replay %</span><span class="m-val">9.17%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Rev Quality</span><span class="m-val">97.96%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Rev Quantity</span><span class="m-val">7.36%</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">Labor Hrs</span><span class="m-val">Over</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Staff Cost $</span><span class="m-val">+$1,276</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Staff Levels</span><span class="m-val">110%</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">Pipeline</span><span class="m-val">1 open</span><span class="m-icon fail">✗</span></div></div></div><div class="card risk" style="animation-delay:0.12s">
+<div class="card-head"><span class="badge" style="background:#f87171;color:#080c14">MLP</span><div class="card-title"><div class="s-name">Milpitas</div><div class="s-tier" style="color:#f87171">AT RISK</div></div><svg class="ring" width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="36" stroke="#1a2332" stroke-width="6" fill="none"/><circle cx="42" cy="42" r="36" stroke="#f87171" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="75.4 226.2" transform="rotate(-90 42 42)"/><text x="42" y="46" text-anchor="middle" font-family="JetBrains Mono" font-weight="500" font-size="20" fill="#e2e8f0">3</text><text x="42" y="58" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">/9</text></svg></div>
+<div class="rows"><div class="row"><span class="m-name">Revenue %</span><span class="m-val">89.82%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">NPS MTD</span><span class="m-val">100%</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">Replay %</span><span class="m-val">7.54%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Rev Quality</span><span class="m-val">98.08%</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">Rev Quantity</span><span class="m-val">8.40%</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">Labor Hrs</span><span class="m-val">Over</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Staff Cost $</span><span class="m-val">+$1,345</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Staff Levels</span><span class="m-val">107%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Pipeline</span><span class="m-val">2 open</span><span class="m-icon fail">✗</span></div></div></div><div class="card risk" style="animation-delay:0.16s">
+<div class="card-head"><span class="badge" style="background:#f87171;color:#080c14">RSV</span><div class="card-title"><div class="s-name">Roseville</div><div class="s-tier" style="color:#f87171">AT RISK</div></div><svg class="ring" width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="36" stroke="#1a2332" stroke-width="6" fill="none"/><circle cx="42" cy="42" r="36" stroke="#f87171" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="25.1 226.2" transform="rotate(-90 42 42)"/><text x="42" y="46" text-anchor="middle" font-family="JetBrains Mono" font-weight="500" font-size="20" fill="#e2e8f0">1</text><text x="42" y="58" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">/9</text></svg></div>
+<div class="rows"><div class="row"><span class="m-name">Revenue %</span><span class="m-val">108.56%</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">NPS MTD</span><span class="m-val">33%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Replay %</span><span class="m-val">8.46%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Rev Quality</span><span class="m-val">96.36%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Rev Quantity</span><span class="m-val">2.61%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Labor Hrs</span><span class="m-val">Over</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Staff Cost $</span><span class="m-val">+$1,475</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Staff Levels</span><span class="m-val">107%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Pipeline</span><span class="m-val">1 open</span><span class="m-icon fail">✗</span></div></div></div><div class="card risk" style="animation-delay:0.2s">
+<div class="card-head"><span class="badge" style="background:#f87171;color:#080c14">SFD</span><div class="card-title"><div class="s-name">SF: Downtown</div><div class="s-tier" style="color:#f87171">AT RISK</div></div><svg class="ring" width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="36" stroke="#1a2332" stroke-width="6" fill="none"/><circle cx="42" cy="42" r="36" stroke="#f87171" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="75.4 226.2" transform="rotate(-90 42 42)"/><text x="42" y="46" text-anchor="middle" font-family="JetBrains Mono" font-weight="500" font-size="20" fill="#e2e8f0">3</text><text x="42" y="58" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">/9</text></svg></div>
+<div class="rows"><div class="row"><span class="m-name">Revenue %</span><span class="m-val">91.56%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">NPS MTD</span><span class="m-val">100%</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">Replay %</span><span class="m-val">6.51%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Rev Quality</span><span class="m-val">100.00%</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">Rev Quantity</span><span class="m-val">6.28%</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">Labor Hrs</span><span class="m-val">Over</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Staff Cost $</span><span class="m-val">+$1,129</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Staff Levels</span><span class="m-val">107%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Pipeline</span><span class="m-val">2 open</span><span class="m-icon fail">✗</span></div></div></div><div class="card risk" style="animation-delay:0.24s">
+<div class="card-head"><span class="badge" style="background:#f87171;color:#080c14">SFW</span><div class="card-title"><div class="s-name">SF: Fisherman's Wharf</div><div class="s-tier" style="color:#f87171">AT RISK</div></div><svg class="ring" width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="36" stroke="#1a2332" stroke-width="6" fill="none"/><circle cx="42" cy="42" r="36" stroke="#f87171" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="25.1 226.2" transform="rotate(-90 42 42)"/><text x="42" y="46" text-anchor="middle" font-family="JetBrains Mono" font-weight="500" font-size="20" fill="#e2e8f0">1</text><text x="42" y="58" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">/9</text></svg></div>
+<div class="rows"><div class="row"><span class="m-name">Revenue %</span><span class="m-val">85.18%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">NPS MTD</span><span class="m-val">50%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Replay %</span><span class="m-val">8.13%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Rev Quality</span><span class="m-val">100.00%</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">Rev Quantity</span><span class="m-val">4.42%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Labor Hrs</span><span class="m-val">Over</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Staff Cost $</span><span class="m-val">+$734</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Staff Levels</span><span class="m-val">104%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Pipeline</span><span class="m-val">1 open</span><span class="m-icon fail">✗</span></div></div></div><div class="card risk" style="animation-delay:0.28s">
+<div class="card-head"><span class="badge" style="background:#f87171;color:#080c14">SJO</span><div class="card-title"><div class="s-name">San Jose</div><div class="s-tier" style="color:#f87171">AT RISK</div></div><svg class="ring" width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="36" stroke="#1a2332" stroke-width="6" fill="none"/><circle cx="42" cy="42" r="36" stroke="#f87171" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="75.4 226.2" transform="rotate(-90 42 42)"/><text x="42" y="46" text-anchor="middle" font-family="JetBrains Mono" font-weight="500" font-size="20" fill="#e2e8f0">3</text><text x="42" y="58" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">/9</text></svg></div>
+<div class="rows"><div class="row"><span class="m-name">Revenue %</span><span class="m-val">93.06%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">NPS MTD</span><span class="m-val">80%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Replay %</span><span class="m-val">7.42%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Rev Quality</span><span class="m-val">96.79%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Rev Quantity</span><span class="m-val">5.41%</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">Labor Hrs</span><span class="m-val">Over</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Staff Cost $</span><span class="m-val">+$6,274</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Staff Levels</span><span class="m-val">127%</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">Pipeline</span><span class="m-val">Full</span><span class="m-icon pass">✓</span></div></div></div><div class="card risk" style="animation-delay:0.32s">
+<div class="card-head"><span class="badge" style="background:#f87171;color:#080c14">SKD</span><div class="card-title"><div class="s-name">Seattle: Downtown</div><div class="s-tier" style="color:#f87171">AT RISK</div></div><svg class="ring" width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="36" stroke="#1a2332" stroke-width="6" fill="none"/><circle cx="42" cy="42" r="36" stroke="#f87171" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="50.3 226.2" transform="rotate(-90 42 42)"/><text x="42" y="46" text-anchor="middle" font-family="JetBrains Mono" font-weight="500" font-size="20" fill="#e2e8f0">2</text><text x="42" y="58" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">/9</text></svg></div>
+<div class="rows"><div class="row"><span class="m-name">Revenue %</span><span class="m-val">92.55%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">NPS MTD</span><span class="m-val">80%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Replay %</span><span class="m-val">5.92%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Rev Quality</span><span class="m-val">98.11%</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">Rev Quantity</span><span class="m-val">4.13%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Labor Hrs</span><span class="m-val">Over</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Staff Cost $</span><span class="m-val">+$3,392</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Staff Levels</span><span class="m-val">119%</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">Pipeline</span><span class="m-val">1 open</span><span class="m-icon fail">✗</span></div></div></div><div class="card risk" style="animation-delay:0.36s">
+<div class="card-head"><span class="badge" style="background:#f87171;color:#080c14">SEA</span><div class="card-title"><div class="s-name">Seattle: Southcenter</div><div class="s-tier" style="color:#f87171">AT RISK</div></div><svg class="ring" width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="36" stroke="#1a2332" stroke-width="6" fill="none"/><circle cx="42" cy="42" r="36" stroke="#f87171" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="75.4 226.2" transform="rotate(-90 42 42)"/><text x="42" y="46" text-anchor="middle" font-family="JetBrains Mono" font-weight="500" font-size="20" fill="#e2e8f0">3</text><text x="42" y="58" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#64748b">/9</text></svg></div>
+<div class="rows"><div class="row"><span class="m-name">Revenue %</span><span class="m-val">109.42%</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">NPS MTD</span><span class="m-val">63%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Replay %</span><span class="m-val">6.43%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Rev Quality</span><span class="m-val">96.83%</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Rev Quantity</span><span class="m-val">7.86%</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">Labor Hrs</span><span class="m-val">Over</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Staff Cost $</span><span class="m-val">+$2,706</span><span class="m-icon fail">✗</span></div><div class="row"><span class="m-name">Staff Levels</span><span class="m-val">114%</span><span class="m-icon pass">✓</span></div><div class="row"><span class="m-name">Pipeline</span><span class="m-val">1 open</span><span class="m-icon fail">✗</span></div></div></div></div>
+<footer><div class="thresholds"><strong>THRESHOLDS</strong> · Revenue ≥100% · NPS ≥88% · Replay ≥10% · Rev Quality ≥98% · Rev Qty ≥5% · Labor Hrs ≤Forecast · Staff Cost Under Budget · Staff Levels ≥110% · Pipeline Fully Staffed</div><div>zone4-ops-hub · Generated 2026-04-16</div></footer>
+</div></body></html>
